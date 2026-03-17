@@ -1,5 +1,5 @@
 numpy
-pandas
+pandas==2.2.3
 plotly
 streamlit
 altair==4.2.2
