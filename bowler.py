@@ -27,13 +27,13 @@ def app():
             st.subheader('Best Bowling Figure:')
             st.write(player.best_figure(ip))
 
-        fig = px.bar(player.wicket_against_teamChart(ip), x='BattingTeam', y='Wickets',
+        fig = px.bar(player.wicket_against_teamChart(ip), x='batting_team', y='Wickets',
                      title="Visual Representation of Bowler's Performance Against Each Team")
         fig.update_xaxes(type='category')
         st.plotly_chart(fig)
 
 
-        fig = px.bar(player.wickets_seasonwiseChart(ip), x='Season', y='Wickets',
+        fig = px.bar(player.wickets_seasonwiseChart(ip), x='season', y='Wickets',
                      title="Visual Representation of Bowler's Wickets Each Season")
         fig.update_xaxes(type='category')
         st.plotly_chart(fig)

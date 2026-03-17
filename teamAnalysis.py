@@ -1,37 +1,80 @@
 import pandas as pd
 
-ipl = pd.read_csv('IPL_cleaned.csv')
+ipl = pd.read_csv('ipl_matches.csv')
 
-ipl.sort_values(['Date'],inplace=True)
+ipl.sort_values(['date'],inplace=True)
+
+def st(x):
+    if x == 'Kings XI Punjab':
+        return 'Punjab Kings'
+    else:
+        return x
+
+def st1(x):
+    if x == 'Delhi Daredevils':
+        return 'Delhi Capitals'
+    else:
+        return x
+
+def st2(x):
+    if x == 'Rising Pune Supergiant':
+        return 'Rising Pune Supergiants'
+    else:
+        return x
+
+
+def st3(t):
+    if t == 'Royal Challengers Bangalore':
+        return 'Royal Challengers Bengaluru'
+    else:
+        return t
+
+
+ipl['team1'] = ipl['team1'].apply(st)
+ipl['team2'] = ipl['team2'].apply(st)
+ipl['winning_team'] = ipl['winning_team'].apply(st)
+
+ipl['team1'] = ipl['team1'].apply(st1)
+ipl['team2'] = ipl['team2'].apply(st1)
+ipl['winning_team'] = ipl['winning_team'].apply(st1)
+
+ipl['team1'] = ipl['team1'].apply(st2)
+ipl['team2'] = ipl['team2'].apply(st2)
+ipl['winning_team'] = ipl['winning_team'].apply(st2)
+
+ipl['team1'] = ipl['team1'].apply(st3)
+ipl['team2'] = ipl['team2'].apply(st3)
+ipl['winning_team'] = ipl['winning_team'].apply(st3)
+
 
 class IPL:
 
     # total teams in ipl till now(2024)
     def teams(self):
-        return list(ipl['Team1'].unique())
+        return list(ipl['team1'].unique())
         # print(teams())
 
     # teamVsteam
-    def teamVsteam(self,team1, team2):
+    def teamVsteam(self,team_1, team_2):
 
-        teams = ipl['Team1'].unique()
-        if team1 in teams and team2 in teams:
+        teams = ipl['team1'].unique()
+        if team_1 in teams and team_2 in teams:
             df = ipl[
-                (ipl['Team1'] == team1) & (ipl['Team2'] == team2) | (ipl['Team1'] == team2) & (ipl['Team2'] == team1)]
+                (ipl['team1'] == team_1) & (ipl['team2'] == team_2) | (ipl['team1'] == team_2) & (ipl['team2'] == team_1)]
             tm = df.shape[0]
 
-            t1_won = df[df['WinningTeam'] == team1].shape[0]
-            t2_won = df[df['WinningTeam'] == team2].shape[0]
+            t1_won = df[df['winning_team'] == team_1].shape[0]
+            t2_won = df[df['winning_team'] == team_2].shape[0]
 
-            #     t1_loss = df[df['WinningTeam'] != team1].shape[0]
-            #     t2_loss = df[df['WinningTeam'] != team2].shape[0]
+            #     t1_loss = df[df['winning_team'] != team1].shape[0]
+            #     t2_loss = df[df['winning_team'] != team2].shape[0]
 
             nr = tm - (t1_won + t2_won)
 
             response = {
                 'Total Matches': str(tm),
-                team1: str(t1_won),
-                team2: str(t2_won),
+                team_1: str(t1_won),
+                team_2: str(t2_won),
                 'No Result': str(nr),
             }
 
@@ -41,15 +84,15 @@ class IPL:
 
     # team record
     def team_record(self,team):
-        teams = list(ipl['Team1'].unique())
+        teams = list(ipl['team1'].unique())
 
         if team in teams:
-            mask = ipl[(ipl['Team1'] == team) | (ipl['Team2'] == team)]
+            mask = ipl[(ipl['team1'] == team) | (ipl['team2'] == team)]
             tm = mask.shape[0]
-            title = ipl[(ipl['MatchNumber'] == 'Final') & (ipl['WinningTeam'] == team)].shape[0]
-            won = mask[mask['WinningTeam'] == team].shape[0]
-            loss = mask[mask['WinningTeam'] != team].shape[0] - mask[mask['WinningTeam'] == 'NR'].shape[0]
-            nr = mask[mask['WinningTeam'] == 'NR'].shape[0]
+            title = ipl[(ipl['match_number'] == 'Final') & (ipl['winning_team'] == team)].shape[0]
+            won = mask[mask['winning_team'] == team].shape[0]
+            loss = mask[mask['winning_team'] != team].shape[0] - mask[mask['winning_team'] == 'NR'].shape[0]
+            nr = mask[mask['winning_team'] == 'NR'].shape[0]
 
             response = {
                 'Team': str(team),
@@ -65,15 +108,15 @@ class IPL:
 
     # pie chart
     def team_recordPie(self,team):
-        teams = list(ipl['Team1'].unique())
+        teams = list(ipl['team1'].unique())
 
         if team in teams:
-            mask = ipl[(ipl['Team1'] == team) | (ipl['Team2'] == team)]
+            mask = ipl[(ipl['team1'] == team) | (ipl['team2'] == team)]
             tm = mask.shape[0]
-            title = ipl[(ipl['MatchNumber'] == 'Final') & (ipl['WinningTeam'] == team)].shape[0]
-            won = mask[mask['WinningTeam'] == team].shape[0]
-            loss = mask[mask['WinningTeam'] != team].shape[0] - mask[mask['WinningTeam'] == 'NR'].shape[0]
-            nr = mask[mask['WinningTeam'] == 'NR'].shape[0]
+            title = ipl[(ipl['match_number'] == 'Final') & (ipl['winning_team'] == team)].shape[0]
+            won = mask[mask['winning_team'] == team].shape[0]
+            loss = mask[mask['winning_team'] != team].shape[0] - mask[mask['winning_team'] == 'NR'].shape[0]
+            nr = mask[mask['winning_team'] == 'NR'].shape[0]
 
             response = {
 
@@ -91,24 +134,24 @@ class IPL:
             return {'message': 'Invalid team name'}
 
     # pie chart of h2h(2 teams)
-    def teamVsteamPie(self,team1, team2):
+    def teamVsteamPie(self,team_1, team_2):
 
-        teams = list(ipl['Team1'].unique())
-        if team1 in teams and team2 in teams:
-            df = ipl[(ipl['Team1'] == team1) & (ipl['Team2'] == team2) | (ipl['Team1'] == team2) & (ipl['Team2'] == team1)]
+        teams = list(ipl['team1'].unique())
+        if team_1 in teams and team_2 in teams:
+            df = ipl[(ipl['team1'] == team_1) & (ipl['team2'] == team_2) | (ipl['team1'] == team_2) & (ipl['team2'] == team_1)]
             tm = df.shape[0]
 
-            t1_won = df[df['WinningTeam'] == team1].shape[0]
-            t2_won = df[df['WinningTeam'] == team2].shape[0]
+            t1_won = df[df['winning_team'] == team_1].shape[0]
+            t2_won = df[df['winning_team'] == team_2].shape[0]
 
-            #     t1_loss = df[df['WinningTeam'] != team1].shape[0]
-            #     t2_loss = df[df['WinningTeam'] != team2].shape[0]
+            #     t1_loss = df[df['winning_team'] != team_1].shape[0]
+            #     t2_loss = df[df['winning_team'] != team_2].shape[0]
 
             nr = tm - (t1_won + t2_won)
 
             response = {
-                team1: str(t1_won),
-                team2: str(t2_won),
+                team_1: str(t1_won),
+                team_2: str(t2_won),
                 'No Result': str(nr),
             }
             response = pd.DataFrame(pd.DataFrame(response, index=[1]).stack()).reset_index()

@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-record = pd.read_csv('ipl_2024_ball_by_ball.csv')
-ipl = pd.read_csv('IPL_cleaned.csv')
+record = pd.read_csv('ipl_ball_by_ball_data.csv')
+ipl = pd.read_csv('ipl_matches.csv')
 
 def st(x):
     if x == 'Kings XI Punjab':
@@ -28,34 +28,34 @@ def st3(t):
     else:
         return t
 
-data = record.merge(ipl,on='ID',how='inner').copy()
+data = record.merge(ipl,on='id',how='inner').copy()
 
-data['BattingTeam'] = data['BattingTeam'].apply(st)
-data['BowlingTeam'] = data['BowlingTeam'].apply(st)
+data['batting_team'] = data['batting_team'].apply(st)
+data['bowling_team'] = data['bowling_team'].apply(st)
 
-data['BattingTeam'] = data['BattingTeam'].apply(st1)
-data['BowlingTeam'] = data['BowlingTeam'].apply(st1)
+data['batting_team'] = data['batting_team'].apply(st1)
+data['bowling_team'] = data['bowling_team'].apply(st1)
 
-data['BattingTeam'] = data['BattingTeam'].apply(st2)
-data['BowlingTeam'] = data['BowlingTeam'].apply(st2)
+data['batting_team'] = data['batting_team'].apply(st2)
+data['bowling_team'] = data['bowling_team'].apply(st2)
 
-data['BattingTeam'] = data['BattingTeam'].apply(st3)
-data['BowlingTeam'] = data['BowlingTeam'].apply(st3)
+data['batting_team'] = data['batting_team'].apply(st3)
+data['bowling_team'] = data['bowling_team'].apply(st3)
 
 class Stats:
 
     # win percentage of teams(home and away)
     def win_percentage(self):
-        ipl1 = ipl[~(ipl['WinningTeam'] == 'NR')]
-        tm = ipl1['Team1'].value_counts() + ipl1['Team2'].value_counts()
+        ipl1 = ipl[~(ipl['winning_team'] == 'NR')]
+        tm = ipl1['team1'].value_counts() + ipl1['team2'].value_counts()
 
-        home_win = round((ipl1[ipl1['Team1'] == ipl1['WinningTeam']]['WinningTeam'].value_counts()) / ipl1[
-            'Team1'].value_counts() * 100, 2)
-        away_win = round((ipl1[ipl1['Team2'] == ipl1['WinningTeam']]['WinningTeam'].value_counts()) / ipl1[
-            'Team2'].value_counts() * 100, 2)
+        home_win = round((ipl1[ipl1['team1'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
+            'team1'].value_counts() * 100, 2)
+        away_win = round((ipl1[ipl1['team2'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
+            'team2'].value_counts() * 100, 2)
 
-        total_win = round((ipl1[ipl1['Team1'] == ipl1['WinningTeam']]['WinningTeam'].value_counts() +
-                           ipl1[ipl1['Team2'] == ipl1['WinningTeam']]['WinningTeam'].value_counts()) / tm * 100, 2)
+        total_win = round((ipl1[ipl1['team1'] == ipl1['winning_team']]['winning_team'].value_counts() +
+                           ipl1[ipl1['team2'] == ipl1['winning_team']]['winning_team'].value_counts()) / tm * 100, 2)
 
 
         df = pd.DataFrame()
@@ -74,13 +74,13 @@ class Stats:
         return '-'.join(list(np.sort(x.values)))
 
     def partnerships(self):
-        data["batter-pair"] = data[["Batter", "NonStriker"]].apply(self.func, axis=1)
+        data["batter-pair"] = data[["batter", "non_striker"]].apply(self.func, axis=1)
 
-        temp = data.groupby("batter-pair").agg({'TotalRun': 'sum','BatsmanRun': 'count','IsWicketDelivery': 'sum'}).reset_index()
+        temp = data.groupby("batter-pair").agg({'total_run': 'sum','batsman_run': 'count','is_wicket_delivery': 'sum'}).reset_index()
 
-        temp = temp.rename(columns={'TotalRun': 'Runs', 'BatsmanRun': 'Balls'})
+        temp = temp.rename(columns={'total_run': 'Runs', 'batsman_run': 'Balls'})
         temp['Strike Rate'] = round((temp['Runs'] / temp['Balls']) * 100,2)
-        temp['Average'] = round((temp['Runs'] / temp['IsWicketDelivery']),2)
+        temp['Average'] = round((temp['Runs'] / temp['is_wicket_delivery']),2)
         temp['Batter-1'] = temp['batter-pair'].str.split('-').str.get(0)
         temp['Batter-2'] = temp['batter-pair'].str.split('-').str.get(1)
         ans = temp[['Batter-1', 'Batter-2', 'Runs', 'Balls', 'Strike Rate', 'Average']].sort_values(by='Runs',ascending=False).head(10)
@@ -95,25 +95,25 @@ class Stats:
 
     #most boundries
     def fours(self):
-        mask = data[data['BatsmanRun'] == 4]
-        four = mask.groupby('Batter')['BatsmanRun'].count().sort_values(ascending=False).head(10)
+        mask = data[data['batsman_run'] == 4]
+        four = mask.groupby('batter')['batsman_run'].count().sort_values(ascending=False).head(10)
 
         return four
 
     # most sixes
     def sixes(self):
-        mask = data[data['BatsmanRun'] == 6]
-        six = mask.groupby('Batter')['BatsmanRun'].count().sort_values(ascending=False).head(10)
+        mask = data[data['batsman_run'] == 6]
+        six = mask.groupby('batter')['batsman_run'].count().sort_values(ascending=False).head(10)
 
         return six
 
     # def win_percentagePie(self):
-    #     ipl1 = ipl[~ipl['WinningTeam'].isna()]
+    #     ipl1 = ipl[~ipl['winning_team'].isna()]
     #
-    #     home_win = round((ipl1[ipl1['Team1'] == ipl1['WinningTeam']]['WinningTeam'].value_counts()) / ipl1[
-    #         'Team1'].value_counts() * 100, 2)
-    #     away_win = round((ipl1[ipl1['Team2'] == ipl1['WinningTeam']]['WinningTeam'].value_counts()) / ipl1[
-    #         'Team2'].value_counts() * 100, 2)
+    #     home_win = round((ipl1[ipl1['team1'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
+    #         'team1'].value_counts() * 100, 2)
+    #     away_win = round((ipl1[ipl1['team2'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
+    #         'team2'].value_counts() * 100, 2)
     #
     #     df = pd.DataFrame()
     #     df = df._append([home_win, away_win], ignore_index=True)

@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-import team, batter, bowler,points_table,stats,about
+import team, batter, bowler, points_table,stats,about
 
 st.set_page_config(
     page_title="IPL Analysis",
