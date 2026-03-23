@@ -1,7 +1,5 @@
 numpy
-joblib
 pandas
 plotly
 streamlit
-scikit-learn
 streamlit_option_menu
