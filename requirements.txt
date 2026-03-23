@@ -2,6 +2,8 @@ numpy
 joblib
 pandas
 plotly
+pymysql
 streamlit
 scikit-learn
+altair==4.2.2
 streamlit_option_menu
