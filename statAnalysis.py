@@ -38,17 +38,17 @@ def st3(t):
 
 data = record.merge(ipl,on='id',how='inner').copy()
 
-data['batting_team'] = data['batting_team'].apply(st)
-data['bowling_team'] = data['bowling_team'].apply(st)
+ipl['batting_team'] = ipl['batting_team'].apply(st)
+ipl['bowling_team'] = ipl['bowling_team'].apply(st)
 
-data['batting_team'] = data['batting_team'].apply(st1)
-data['bowling_team'] = data['bowling_team'].apply(st1)
+ipl['batting_team'] = ipl['batting_team'].apply(st1)
+ipl['bowling_team'] = ipl['bowling_team'].apply(st1)
 
-data['batting_team'] = data['batting_team'].apply(st2)
-data['bowling_team'] = data['bowling_team'].apply(st2)
+ipl['batting_team'] = ipl['batting_team'].apply(st2)
+ipl['bowling_team'] = ipl['bowling_team'].apply(st2)
 
-data['batting_team'] = data['batting_team'].apply(st3)
-data['bowling_team'] = data['bowling_team'].apply(st3)
+ipl['batting_team'] = ipl['batting_team'].apply(st3)
+ipl['bowling_team'] = ipl['bowling_team'].apply(st3)
 
 class Stats:
 
