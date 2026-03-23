@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-import team, batter, bowler, points_table,stats,about
+import team, batter, bowler, points_table, stats, about, model
 
 st.set_page_config(
     page_title="IPL Analysis",
@@ -24,7 +24,7 @@ class MultiApp:
         with st.sidebar:
             app = option_menu(
                 menu_title='IPL Analysis ',
-                options=['Points Table','Team Analysis','Batting Analysis','Bowling Analysis','Stats','About'],
+                options=['Score Preditor', 'Points Table','Team Analysis','Batting Analysis','Bowling Analysis','Stats','About'],
                 # icons=['trophy-fill', 'house-fill', 'person-circle', 'chat-fill', 'info-circle-fill'],
                 menu_icon='cricket',
                 default_index=0,
@@ -36,6 +36,8 @@ class MultiApp:
                     "nav-link-selected": {"background-color": "Blue"}, }
             )
 
+        if app == 'Score Preditor':
+            model.app()
         if app == 'Team Analysis':
             team.app()
         if app == 'Batting Analysis':

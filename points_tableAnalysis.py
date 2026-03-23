@@ -1,6 +1,13 @@
 import pandas as pd
+from data import IPLDatabase
 
-ipl = pd.read_csv('ipl_matches.csv')
+db = IPLDatabase()
+
+ipl = db.get_seasons_data()
+
+db.close()
+
+# ipl = pd.read_csv('ipl_matches.csv')
 
 class Points_Table:
 

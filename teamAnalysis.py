@@ -1,6 +1,12 @@
 import pandas as pd
+from data import IPLDatabase
 
-ipl = pd.read_csv('ipl_matches.csv')
+db = IPLDatabase()
+
+ipl = db.get_seasons_data()
+
+db.close()
+# ipl = pd.read_csv('ipl_matches.csv')
 
 ipl.sort_values(['date'],inplace=True)
 
@@ -49,10 +55,15 @@ ipl['winning_team'] = ipl['winning_team'].apply(st3)
 
 class IPL:
 
-    # total teams in ipl till now(2024)
     def teams(self):
         return list(ipl['team1'].unique())
         # print(teams())
+
+    def playing_teams(self):
+        return list(ipl[ipl['season'] == '2025']['team1'].unique())
+    
+    def cities(self):
+        return list(ipl[ipl['season'] == '2025']['city'].unique())
 
     # teamVsteam
     def teamVsteam(self,team_1, team_2):

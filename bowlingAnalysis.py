@@ -1,7 +1,15 @@
 import pandas as pd
+from data import IPLDatabase
 
-record = pd.read_csv('ipl_ball_by_ball_data.csv')
-ipl = pd.read_csv('ipl_matches.csv')
+db = IPLDatabase()
+
+ipl = db.get_seasons_data()
+record = db.get_ball_by_ball_data()
+
+db.close()
+
+# record = pd.read_csv('ipl_ball_by_ball_data.csv')
+# ipl = pd.read_csv('ipl_matches.csv')
 
 ipl = ipl[~ipl['team1players'].isna()]
 
