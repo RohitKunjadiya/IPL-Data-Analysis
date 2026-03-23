@@ -1,6 +1,6 @@
 numpy
 joblib
-pandas
+pandas==2.3.3
 plotly
 pymysql
 streamlit
