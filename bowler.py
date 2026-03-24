@@ -49,4 +49,4 @@ def app():
             st.dataframe(player.h2h_bowler(),column_config={'BatsmanRun':'Runs'},width=410)
 
         st.subheader('Purple-Cap Holder:')
-        st.dataframe(player.purple_cap(),column_config={'IsWicketDelivery':'Wickets','bowlers_run':'Runs Conceded','islegelball':'Balls'},width=800,height=633)
+        st.dataframe(player.purple_cap(),column_config={'IsWicketDelivery':'Wickets','bowlers_run':'Runs Conceded','islegelball':'Balls'},width=800,height=670)

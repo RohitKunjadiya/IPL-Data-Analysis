@@ -7,7 +7,7 @@ def app():
 
     st.title('IPL Stats:')
 
-    st.subheader("Home and Away Win Percentage of IPL Teams:")
+    st.subheader("Win Percentage of IPL Teams:")
     st.dataframe(stat.win_percentage(),width=620,height=562)
 
     st.subheader('Batting Partners:')

@@ -19,7 +19,7 @@ def app():
     st.markdown("<h4> 2. Team vs Team Analysis </h4>", unsafe_allow_html=True)
     st.markdown("""
                            \t - Detailed head-to-head records.
-                           \t - Win/loss/NR(No Result) Pie Chart of h2h team and individual team 
+                           \t - Win/loss/NR(No Result) Pie Chart of h2h team and individual team.
                            \t - Performance of team till 2024.
             """)
     st.markdown("<h4> 3. Batting Analysis </h4>", unsafe_allow_html=True)
@@ -37,7 +37,7 @@ def app():
                                    \t - Wickets of bowler against each team.
                                    \t - Wickets of bowler in each season.
                                    \t - Purple Cap Holder in each season.
-                                   \t - Best Bowling figure and total wickets of bowler
+                                   \t - Best Bowling figure and total wickets of bowler.
                     """)
     st.markdown("<h4> 5. Points Table </h4>", unsafe_allow_html=True)
     st.markdown("""
@@ -48,6 +48,6 @@ def app():
     st.markdown("<h4> 6. IPL Stats </h4>", unsafe_allow_html=True)
     st.markdown("""
                                            \t - Good Batting Partners: Identifying the most successful batting pairs in IPL history.
-                                           \t - Home and Away Win Percentages
-                                           \t - Most 4s and 6s
+                                           \t - Win Percentage of IPL teams.
+                                           \t - Most 4s and 6s.
                             """)

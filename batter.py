@@ -48,4 +48,4 @@ def app():
             st.dataframe(sr,column_config={'BatsmanRun':'Strike Rate'},width=300)
 
         st.subheader('Orange-Cap Holders:')
-        st.dataframe(player.orange_cap_holder(), width=500, height=633)
+        st.dataframe(player.orange_cap_holder(), width=500, height=670)

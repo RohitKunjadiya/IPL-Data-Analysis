@@ -38,17 +38,22 @@ def st3(t):
 
 data = record.merge(ipl,on='id',how='inner').copy()
 
-data['batting_team'] = data['batting_team'].apply(st)
-data['bowling_team'] = data['bowling_team'].apply(st)
+ipl['team1'] = ipl['team1'].apply(st)
+ipl['team2'] = ipl['team2'].apply(st)
+ipl['winning_team'] = ipl['winning_team'].apply(st)
 
-data['batting_team'] = data['batting_team'].apply(st1)
-data['bowling_team'] = data['bowling_team'].apply(st1)
 
-data['batting_team'] = data['batting_team'].apply(st2)
-data['bowling_team'] = data['bowling_team'].apply(st2)
+ipl['team1'] = ipl['team1'].apply(st1)
+ipl['team2'] = ipl['team2'].apply(st1)
+ipl['winning_team'] = ipl['winning_team'].apply(st1)
 
-data['batting_team'] = data['batting_team'].apply(st3)
-data['bowling_team'] = data['bowling_team'].apply(st3)
+ipl['team1'] = ipl['team1'].apply(st2)
+ipl['team2'] = ipl['team2'].apply(st2)
+ipl['winning_team'] = ipl['winning_team'].apply(st2)
+
+ipl['team1'] = ipl['team1'].apply(st3)
+ipl['team2'] = ipl['team2'].apply(st3)
+ipl['winning_team'] = ipl['winning_team'].apply(st3)
 
 class Stats:
 
@@ -57,23 +62,21 @@ class Stats:
         ipl1 = ipl[~(ipl['winning_team'] == 'NR')]
         tm = ipl1['team1'].value_counts() + ipl1['team2'].value_counts()
 
-        home_win = round((ipl1[ipl1['team1'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
-            'team1'].value_counts() * 100, 2)
-        away_win = round((ipl1[ipl1['team2'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
-            'team2'].value_counts() * 100, 2)
+        # home_win = round((ipl1[ipl1['team1'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
+        #     'team1'].value_counts() * 100, 2)
+        # away_win = round((ipl1[ipl1['team2'] == ipl1['winning_team']]['winning_team'].value_counts()) / ipl1[
+        #     'team2'].value_counts() * 100, 2)
 
         total_win = round((ipl1[ipl1['team1'] == ipl1['winning_team']]['winning_team'].value_counts() +
                            ipl1[ipl1['team2'] == ipl1['winning_team']]['winning_team'].value_counts()) / tm * 100, 2)
 
 
         df = pd.DataFrame()
-        df = df._append([tm.astype('int'), total_win, home_win, away_win], ignore_index=True)
+        df = df._append([tm.astype('int'), total_win], ignore_index=True)
 
         x = df.reset_index()
         x.loc[0, 'index'] = 'Total Matches'
         x.loc[1, 'index'] = 'Total Win(%)'
-        x.loc[2, 'index'] = 'Home Win(%)'
-        x.loc[3, 'index'] = 'Away Win(%)'
 
         return x.set_index('index').T
 
