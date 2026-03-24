@@ -7,24 +7,16 @@ class Database:
     def __init__(self):
         try:
             self.conn = pymysql.connect(
-                host="gondola.proxy.rlwy.net",
-                port=41287,
-                user="root",
-                password="ShiZuWeCIrkAWgkDpUwcVnDQHAjXmjyX",
-                database="railway",
-                autocommit=False
+                host="host,
+                port='port,
+                user="username",
+                password="password",
+                database="db_name"
             )
-            # self.conn = pymysql.connect(
-            #     host='localhost',
-            #     user='rohit',
-            #     password="Rohit@19",
-            #     autocommit=True
-            # )
 
             self.cursor = self.conn.cursor()
             print('Connection Established!')
 
-            # self.cursor.execute('CREATE DATABASE IF NOT EXISTS IPL;')
             self.cursor.execute('USE railway;')
 
             create_table_query_1 = """
